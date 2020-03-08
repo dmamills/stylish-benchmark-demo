@@ -1,5 +1,6 @@
 {
-  "name": "lol",
+  "name": "stylish-benchmark-demo",
+  "homepage": "http://dmamills.github.io/stylish-benchmark-demo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -55,6 +56,8 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
@@ -113,5 +116,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }

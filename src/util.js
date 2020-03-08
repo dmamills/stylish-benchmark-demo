@@ -19,10 +19,10 @@ const applyToStylesheet = (styles) => {
   }));
 }
 
-export const backgroundGenerate = () => applyToStylesheet(flatten(iterateColors(backgroundColor => loopNum(10, o => ({
+export const backgroundGenerate = () => flatten(iterateColors(backgroundColor => loopNum(10, o => ({
   name: backgroundColor,
-  css: { backgroundColor, opacity: `${o/10}` }
-})))))
+  css: stylish({ backgroundColor, opacity: `${o/10}` })
+}))))
 
 export const textGenerate = () => applyToStylesheet(flatten(iterateColors(color => loopNum(10, o => ({
   name: color,

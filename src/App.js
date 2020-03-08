@@ -69,8 +69,21 @@ class App extends Component {
       <div className={base}>
         <div>
           <h1>Stylish Example</h1>
-          <p>This page uses stylish two ways, the first it already has, it generated <strong>1480 css rules</strong>, that you can see presented here already. It took <strong>{instantTimeTaken} milliseconds</strong> to generate them. It did this in a single call to stylish.</p>
-        <p>When you press the button, it will generate the styles individually, which the first load will take a longer time, subsuquent calls to generate styles will be cached and much quicker.</p>
+          <p>This page uses stylish two ways, the first it already has, it generated <strong>1480 css rules</strong>, that you can see presented here already. It took <strong>{instantTimeTaken} milliseconds</strong> to generate them. It did this in a single call to stylish. The most optimal way to use stylish is to arrange your objects first, and them pass them to stylish. This present unnecessary updates to the stylesheet node.</p>
+
+<h2>Optimal Example</h2>
+<pre>{`
+   const fontSizes = [0.5,1,1.2,1.5,1.6,2].map(size => ({ fontSize: size + 'rem' }));
+   const [small, base, med, large, xlarge, xxlarge ] = stylish(fontSizes);
+
+`}</pre>
+<h2>Bad Example</h2>
+        <p>When you press the button, it will generate the styles individually, a few dozen calls to stylish to build up your rules is fine, but as you'll see it's much faster to group your calls where possible. You can notice that while the first load will take a long time, subsuquent calls to stylish will recognize cached rules and be much quicker.</p>
+<pre>{`
+    const [small, base, med, large, xlarge, xxlarge ] = [0.5,1,1.2,1.5,1.6,2].map(size => stylish({ fontSize: size + 'rem' }));
+`}</pre>
+
+        <p>For more information about stylish please see the <a href="https://dmamills.github.io/stylish">documentation</a></p>
           <button onClick={this.generate}>Generate styles</button>
           <p>Generated: <strong>{colors ? colors.length : 0} css rules</strong> in <strong>{timeTaken ? timeTaken : ''} milliseconds</strong></p>
         </div>
