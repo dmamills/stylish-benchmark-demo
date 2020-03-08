@@ -1,11 +1,11 @@
 {
-  "main.js": "/sdemo/static/js/main.2bf830d4.chunk.js",
-  "main.js.map": "/sdemo/static/js/main.2bf830d4.chunk.js.map",
-  "static/js/1.3ac22ad3.chunk.js": "/sdemo/static/js/1.3ac22ad3.chunk.js",
-  "static/js/1.3ac22ad3.chunk.js.map": "/sdemo/static/js/1.3ac22ad3.chunk.js.map",
-  "runtime~main.js": "/sdemo/static/js/runtime~main.85794310.js",
-  "runtime~main.js.map": "/sdemo/static/js/runtime~main.85794310.js.map",
-  "index.html": "/sdemo/index.html",
-  "precache-manifest.1b282b95fbf03f45456034772a8db3f3.js": "/sdemo/precache-manifest.1b282b95fbf03f45456034772a8db3f3.js",
-  "service-worker.js": "/sdemo/service-worker.js"
+  "main.js": "/stylish-benchmark-demo/static/js/main.2bf830d4.chunk.js",
+  "main.js.map": "/stylish-benchmark-demo/static/js/main.2bf830d4.chunk.js.map",
+  "static/js/1.3ac22ad3.chunk.js": "/stylish-benchmark-demo/static/js/1.3ac22ad3.chunk.js",
+  "static/js/1.3ac22ad3.chunk.js.map": "/stylish-benchmark-demo/static/js/1.3ac22ad3.chunk.js.map",
+  "runtime~main.js": "/stylish-benchmark-demo/static/js/runtime~main.fd7b767a.js",
+  "runtime~main.js.map": "/stylish-benchmark-demo/static/js/runtime~main.fd7b767a.js.map",
+  "index.html": "/stylish-benchmark-demo/index.html",
+  "precache-manifest.68c08e2b905aebe2684dc436f416f8a9.js": "/stylish-benchmark-demo/precache-manifest.68c08e2b905aebe2684dc436f416f8a9.js",
+  "service-worker.js": "/stylish-benchmark-demo/service-worker.js"
 }
