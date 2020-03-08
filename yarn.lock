@@ -770,10 +770,10 @@
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
 
-"@dmamills/stylish@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@dmamills/stylish/-/stylish-0.3.0.tgz#2604e5d676d04f2214f328cea29e14a7cf8d8c77"
-  integrity sha512-UmfoQsJBZFWGfdFj3yzrhZhePvttWMWstmwX0PI9cVQV1FSC+VT2/UilRWTfJ1mZGaHOJKULO6/7kz5+HWLhUg==
+"@dmamills/stylish@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@dmamills/stylish/-/stylish-1.4.1.tgz#548df019ea8e48e17441c75e078aaa9ad03d72bc"
+  integrity sha512-X53tcw+ix2Vb7xHc1NduxubiFqtUDk0m3quVfhTHHElPN6qGQdM77iX0M+covDukOEZvYZmnE9IcAyr/jFs6+Q==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

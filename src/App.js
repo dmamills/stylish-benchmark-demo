@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import stylish from '@dmamills/stylish';
 
+import { textGenerate, backgroundGenerate } from './util';
+
 const base = stylish({
   fontFamily: 'Arial',
 });
@@ -11,8 +13,23 @@ const colorsContainer = stylish({
   flexWrap: 'wrap'
 });
 
+const textBox = stylish({
+  border: '1px solid black',
+  margin: '1rem',
+  borderRadius: '1rem',
+  backgroundColor: '#111111',
+  padding: '0.5rem',
+  width: '100px',
+  height: '100px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center'
+});
 
 const box = stylish({
+  border: '1px solid black',
   margin: '1rem',
   borderRadius: '1rem',
   display: 'flex',
@@ -25,32 +42,17 @@ const box = stylish({
 });
 
 
-const generateStyles = () => {
-  return [
-  "AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","DarkOrange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","RebeccaPurple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"
-  ].map(backgroundColor => {
-    return [1,2,3,4,5,6,7,8,9,10].map(o => {
-      return {
-        name: backgroundColor,
-        css: stylish({ backgroundColor, opacity: `${o/10}` })
-      };
-    });
-  }).reduce((acc, c) => {
-    return acc.concat(c);
-  },[]);
-}
+const instant1 = performance.now();
+const pregen = textGenerate();
+const instant2 = performance.now();
+const instantTimeTaken = (instant2 - instant1);
+console.log(instantTimeTaken);
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
+  state = {};
   generate = () => {
-
     const n1 = performance.now();
-    const colors = generateStyles();
+    const colors = backgroundGenerate();
     const n2 = performance.now();
     const timeTaken = (n2 - n1);
 
@@ -67,8 +69,10 @@ class App extends Component {
       <div className={base}>
         <div>
           <h1>Stylish Example</h1>
+          <p>This page uses stylish two ways, the first it already has, it generated <strong>1480 css rules</strong>, that you can see presented here already. It took <strong>{instantTimeTaken} milliseconds</strong> to generate them. It did this in a single call to stylish.</p>
+        <p>When you press the button, it will generate the styles individually, which the first load will take a longer time, subsuquent calls to generate styles will be cached and much quicker.</p>
           <button onClick={this.generate}>Generate styles</button>
-          <strong>Generated: {colors ? colors.length : 0} css rules in {timeTaken ? timeTaken : ''} milliseconds</strong>
+          <p>Generated: <strong>{colors ? colors.length : 0} css rules</strong> in <strong>{timeTaken ? timeTaken : ''} milliseconds</strong></p>
         </div>
 
         <div className={colorsContainer}>
@@ -79,6 +83,15 @@ class App extends Component {
                 <strong>{c.css}</strong>
               </div>)
           })}
+        </div>
+        <div className={colorsContainer}>
+        {pregen && pregen.map((c,idx) => {
+            return (
+                <div key={`${c.name}${idx}`} className={textBox}>
+                    <strong className={c.css}>{c.name}</strong>
+                    <strong className={c.css}>{c.css}</strong>
+                </div>)
+        })}
         </div>
       </div>
     );
