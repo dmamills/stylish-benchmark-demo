@@ -11,21 +11,35 @@ const loopNum = (n, fn) => {
 
 const flatten = (arr) => arr.reduce((acc, a) => acc.concat(a), []);
 
+/**
+* Takes an array of style objects and generates their classnames in bulk
+* returning the name of the generated classes
+*/
 const applyToStylesheet = (styles) => {
   const classes = stylish(...styles.map(c => c.css));
   return styles.map(({ name }, idx) => ({
     css: classes[idx],
     name: name
   }));
-}
+};
 
+/**
+* Generates the background example styles
+* note that this invokes stylish within the map, causing many DOM updates
+* this is a bad way to use the framework
+*/
 export const backgroundGenerate = () => flatten(iterateColors(backgroundColor => loopNum(10, o => ({
   name: backgroundColor,
   css: stylish({ backgroundColor, opacity: `${o/10}` })
-}))))
+}))));
+
+export const backgroundGenerateFast = () => applyToStylesheet(flatten(iterateColors(backgroundColor => loopNum(10, o => ({
+    name: backgroundColor,
+    css: { backgroundColor, opacity: `${o/10}` }
+  })))));
 
 export const textGenerate = () => applyToStylesheet(flatten(iterateColors(color => loopNum(10, o => ({
   name: color,
   css: { color, opacity: `${o/10}` }
-})))))
+})))));
 

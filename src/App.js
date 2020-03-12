@@ -1,77 +1,52 @@
-import React, { Component } from 'react';
-import stylish from '@dmamills/stylish';
+import React, { useState } from 'react';
 
-import { textGenerate, backgroundGenerate } from './util';
+import GeneratedCollection from './GeneratedCollection';
+import { textGenerate, backgroundGenerate, backgroundGenerateFast } from './util';
+import { base, textBox, box } from './styles';
 
-const base = stylish({
-  fontFamily: 'Arial',
-});
-
-const colorsContainer = stylish({
-  border: '1px solid black',
-  display: 'flex',
-  flexWrap: 'wrap'
-});
-
-const textBox = stylish({
-  border: '1px solid black',
-  margin: '1rem',
-  borderRadius: '1rem',
-  backgroundColor: '#111111',
-  padding: '0.5rem',
-  width: '100px',
-  height: '100px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  textAlign: 'center'
-});
-
-const box = stylish({
-  border: '1px solid black',
-  margin: '1rem',
-  borderRadius: '1rem',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '200px',
-  height: '200px',
-  textAlign: 'center'
-});
+const runGenerate = (fn) => {
+  const t1 = performance.now();
+  const result = fn();
+  const t2 = performance.now();
+  const time = (t2 - t1);
+  return { result, time };
+}
 
 
-const instant1 = performance.now();
-const pregen = textGenerate();
-const instant2 = performance.now();
-const instantTimeTaken = (instant2 - instant1);
-console.log(instantTimeTaken);
+const instant = runGenerate(textGenerate);
+const pregen = instant.result;
+const instantTimeTaken = instant.time;
 
-class App extends Component {
-  state = {};
-  generate = () => {
-    const n1 = performance.now();
-    const colors = backgroundGenerate();
-    const n2 = performance.now();
-    const timeTaken = (n2 - n1);
+const App = () => {
+  const [timeTaken, setTimeTaken] = useState(null);
+  const [colors, setColors] = useState(null);
 
-    this.setState({
-      timeTaken,
-      colors
-    });
+  const generate = () => {
+    const result = runGenerate(backgroundGenerate);
+    setTimeTaken(result.time)
+    setColors(result.result);
   }
 
-  render() {
-    const { colors, timeTaken } = this.state;
+  const generateFast = () => {
+    const result = runGenerate(backgroundGenerateFast);
+    setTimeTaken(result.time)
+    setColors(result.result);
 
-    return (
+    /* const n1 = performance.now();
+     * const updatedColors= backgroundGenerateFast();
+     * const n2 = performance.now();
+     * const time = (n2 - n1);
+     * setTimeTaken(time)
+     * setColors(updatedColors); */
+  }
+
+  return (
       <div className={base}>
         <div>
           <h1>Stylish Example</h1>
+          <h2>Optimal Example</h2>
           <p>This page uses stylish two ways, the first it already has, it generated <strong>1480 css rules</strong>, that you can see presented here already. It took <strong>{instantTimeTaken} milliseconds</strong> to generate them. It did this in a single call to stylish. The most optimal way to use stylish is to arrange your objects first, and them pass them to stylish. This present unnecessary updates to the stylesheet node.</p>
 
-<h2>Optimal Example</h2>
 <pre>{`
    const fontSizes = [0.5,1,1.2,1.5,1.6,2].map(size => ({ fontSize: size + 'rem' }));
    const [small, base, med, large, xlarge, xxlarge ] = stylish(fontSizes);
@@ -84,31 +59,18 @@ class App extends Component {
 `}</pre>
 
         <p>For more information about stylish please see the <a href="https://dmamills.github.io/stylish">documentation</a></p>
-          <button onClick={this.generate}>Generate styles</button>
+        <div>
+          <button onClick={generate}>Generate styles (suboptimal)</button>
+          <button onClick={generateFast}>Generate styles (optimal)</button>
+        </div>
           <p>Generated: <strong>{colors ? colors.length : 0} css rules</strong> in <strong>{timeTaken ? timeTaken : ''} milliseconds</strong></p>
         </div>
 
-        <div className={colorsContainer}>
-          {colors && colors.map((c,idx) => {
-            return (
-              <div key={`${c.name}${idx}`} className={`${box} ${c.css}`}>
-                <strong>{c.name}</strong>
-                <strong>{c.css}</strong>
-              </div>)
-          })}
-        </div>
-        <div className={colorsContainer}>
-        {pregen && pregen.map((c,idx) => {
-            return (
-                <div key={`${c.name}${idx}`} className={textBox}>
-                    <strong className={c.css}>{c.name}</strong>
-                    <strong className={c.css}>{c.css}</strong>
-                </div>)
-        })}
-        </div>
+          <GeneratedCollection collection={colors} className={box} />
+          <GeneratedCollection collection={pregen} className={textBox} />
       </div>
-    );
-  }
+
+  );
 }
 
 export default App;
